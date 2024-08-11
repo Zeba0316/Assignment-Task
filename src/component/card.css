@@ -1,0 +1,50 @@
+.card {
+  width: 100%;
+  min-height: 12rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid lightgray;
+  padding: 2rem;
+  border-radius: 15px;
+  transition: 0.25s ease-in-out;
+  cursor: pointer;
+  position: relative;
+}
+.card > p {
+  font-family: "customFont";
+  font-size: 20px;
+}
+.card > p:nth-child(2) {
+  color: gray;
+}
+.card > p:nth-child(3) {
+    max-width: 90%;
+    color: gray;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+.card:hover {
+  background: #eeecec;
+}
+
+.add-btn{
+    position: absolute;
+    top:50%;
+    transform: translateY(-50%);
+    right: 5%;
+    background: #eeecec;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+}
+.add-btn:hover{
+    background: #dbdbdb;
+}
