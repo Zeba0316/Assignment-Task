@@ -86,8 +86,21 @@
     font-size: 18px;
     
   }
-
   .service-2{
     width: 85%;
   }
+}
+
+@media(max-width:750px){
+  .service-1{
+    width: 90%;
+  }
+  .service-1-category
+  {
+    gap:0.5rem;
+  }
+  .service-1-category>p{
+    font-size: 15px;
+  }
+
 }
