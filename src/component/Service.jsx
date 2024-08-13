@@ -6,8 +6,9 @@ import Card from "./Card";
 const Service = () => {
   const [selectedCategory, setSelectedCategory] = useState("Featured");
   const categoryContainerRef = useRef(null);
+  const serviceContainerRef = useRef(null);
   const serviceRefs = useRef([]);
-  
+
   const categories = [
     "Featured",
     "Haircutting",
@@ -154,8 +155,125 @@ const Service = () => {
       },
     ],
   };
-
-  const dataArr = [FeaturedData, HaircutData, StylingData, colorServiceData];
+  const naturalHairstylingData = {
+    title: "Natural Hairstyling",
+    data: [
+      {
+        title: "Flexi Rod Set",
+        time: "3 hrs",
+        amount: "$125",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      },
+      {
+        title: "Wash & Go - Curly Style",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "This service includes a deep conditioning treatment to revitalize your hair.",
+      },
+      {
+        title: "Blow Dry/Silk Press",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "Includes a thorough wash, blow dry, and styling with a silk press.",
+      },
+      {
+        title: "Haircut",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      },
+    ],
+  };
+  const relaxerTexturizerData = {
+    title: "Relaxer/Texturizer/Keratin",
+    data: [
+      {
+        title: "Flexi Rod Set",
+        time: "3 hrs",
+        amount: "$125",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      },
+      {
+        title: "Wash & Go - Curly Style",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "This service includes a deep conditioning treatment to revitalize your hair.",
+      },
+      {
+        title: "Blow Dry/Silk Press",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "Includes a thorough wash, blow dry, and styling with a silk press.",
+      },
+      {
+        title: "Haircut",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      },
+    ],
+  };
+  const treatmentsData = {
+    title: "Treatments",
+    data: [
+      {
+        title: "Detox Shampoo",
+        time: "3 hrs",
+        amount: "$125",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      },
+      {
+        title: "Deep Condition (Standard)",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "This service includes a deep conditioning treatment to revitalize your hair.",
+      },
+    ],
+  };
+  const extensionInstallsData = {
+    title: "Extension,Installs and Wig",
+    data: [
+      {
+        title: "Flexi Rod Set",
+        time: "3 hrs",
+        amount: "$125",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      },
+      {
+        title: "Wash & Go - Curly Style",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "This service includes a deep conditioning treatment to revitalize your hair.",
+      },
+      {
+        title: "Blow Dry/Silk Press",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "Includes a thorough wash, blow dry, and styling with a silk press.",
+      },
+      {
+        title: "Haircut",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      },
+    ],
+  };
+  const dataArr = [FeaturedData, HaircutData, StylingData, colorServiceData,naturalHairstylingData,relaxerTexturizerData,extensionInstallsData,treatmentsData];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -165,6 +283,21 @@ const Service = () => {
             const index = entry.target.dataset.index;
             const category = dataArr[index]?.title;
             setSelectedCategory(category);
+
+            if (categoryContainerRef.current) {
+              const categoryElement = categoryContainerRef.current.children[index];
+              const containerRect = categoryContainerRef.current.getBoundingClientRect();
+              const categoryRect = categoryElement.getBoundingClientRect();
+
+              const scrollOffset = categoryRect.left - containerRect.left;
+              categoryContainerRef.current.scrollBy({
+                left:
+                  scrollOffset -
+                  containerRect.width / 2 +
+                  categoryElement.offsetWidth / 2,
+                behavior: "smooth",
+              });
+            }
           }
         });
       },
@@ -227,7 +360,7 @@ const Service = () => {
     }
 
     if (serviceRefs.current[index]) {
-      serviceRefs.current[index].scrollIntoView({ behavior: "smooth" });
+      serviceRefs.current[index].scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
 
@@ -254,7 +387,7 @@ const Service = () => {
           </div>
         </div>
       </div>
-      <div className="service-2">
+      <div className="service-2" ref={serviceContainerRef}>
         {dataArr.map((data, index) => (
           <div
             className="service-2-data"

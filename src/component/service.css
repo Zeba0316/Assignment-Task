@@ -73,3 +73,21 @@
     flex-direction: column;
     gap:20px;
 }
+
+@media(max-width: 1000px){
+  .service-1{
+    width: 85%;
+  }
+  .service-1-category
+  {
+    gap:1rem;
+  }
+  .service-1-category>p{
+    font-size: 15px;
+    
+  }
+
+  .service-2{
+    width: 85%;
+  }
+}
