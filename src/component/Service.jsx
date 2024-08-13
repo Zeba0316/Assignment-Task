@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./service.css";
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6";
 import Card from "./Card";
@@ -7,7 +7,7 @@ const Service = () => {
   const [selectedCategory, setSelectedCategory] = useState("Featured");
   const categoryContainerRef = useRef(null);
   const serviceRefs = useRef([]);
-
+  
   const categories = [
     "Featured",
     "Haircutting",
@@ -30,13 +30,6 @@ const Service = () => {
           "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
       },
       {
-        title: "Haircut",
-        time: "1hr,30 mins -2 hrs",
-        amount: "$25",
-        description:
-          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
-      },
-      {
         title: "Deep condition (Standard)",
         time: "1hr,30 mins -2 hrs",
         amount: "$25",
@@ -50,6 +43,13 @@ const Service = () => {
         description:
           "Includes a thorough wash, blow dry, and styling with a silk press.",
       },
+      {
+        title: "Haircut",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      }
     ],
   };
 
@@ -64,13 +64,6 @@ const Service = () => {
           "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
       },
       {
-        title: "Haircut",
-        time: "1hr,30 mins -2 hrs",
-        amount: "$25",
-        description:
-          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
-      },
-      {
         title: "Deep condition (Standard)",
         time: "1hr,30 mins -2 hrs",
         amount: "$25",
@@ -84,6 +77,13 @@ const Service = () => {
         description:
           "Includes a thorough wash, blow dry, and styling with a silk press.",
       },
+      {
+        title: "Haircut",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      }
     ],
   };
 
@@ -98,13 +98,6 @@ const Service = () => {
           "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
       },
       {
-        title: "Haircut",
-        time: "1hr,30 mins -2 hrs",
-        amount: "$25",
-        description:
-          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
-      },
-      {
         title: "Deep condition (Standard)",
         time: "1hr,30 mins -2 hrs",
         amount: "$25",
@@ -118,11 +111,18 @@ const Service = () => {
         description:
           "Includes a thorough wash, blow dry, and styling with a silk press.",
       },
+      {
+        title: "Haircut",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      }
     ],
   };
 
   const colorServiceData = {
-    title: "Color Service",
+    title: "Color Services",
     data: [
       {
         title: "Haircut",
@@ -132,13 +132,6 @@ const Service = () => {
           "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
       },
       {
-        title: "Haircut",
-        time: "1hr,30 mins -2 hrs",
-        amount: "$25",
-        description:
-          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
-      },
-      {
         title: "Deep condition (Standard)",
         time: "1hr,30 mins -2 hrs",
         amount: "$25",
@@ -152,10 +145,50 @@ const Service = () => {
         description:
           "Includes a thorough wash, blow dry, and styling with a silk press.",
       },
+      {
+        title: "Haircut",
+        time: "1hr,30 mins -2 hrs",
+        amount: "$25",
+        description:
+          "We do not have pricing for trims. All haircuts are full services that include a wash and style; either a wash and go or a silk press. Specify with stylist upon arrival.",
+      },
     ],
   };
 
   const dataArr = [FeaturedData, HaircutData, StylingData, colorServiceData];
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = entry.target.dataset.index;
+            const category = dataArr[index]?.title;
+            setSelectedCategory(category);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.5,
+      }
+    );
+
+    serviceRefs.current.forEach((ref) => {
+      if (ref) {
+        observer.observe(ref);
+      }
+    });
+
+    return () => {
+      serviceRefs.current.forEach((ref) => {
+        if (ref) {
+          observer.unobserve(ref);
+        }
+      });
+    };
+  }, [dataArr]);
 
   const handleScrollLeft = () => {
     if (categoryContainerRef.current) {
@@ -177,12 +210,12 @@ const Service = () => {
 
   const handleCategoryClick = (category, index) => {
     setSelectedCategory(category);
+
     if (categoryContainerRef.current) {
       const categoryElement = categoryContainerRef.current.children[index];
       const containerRect = categoryContainerRef.current.getBoundingClientRect();
       const categoryRect = categoryElement.getBoundingClientRect();
 
-      // Calculate the amount to scroll by
       const scrollOffset = categoryRect.left - containerRect.left;
       categoryContainerRef.current.scrollBy({
         left:
@@ -193,7 +226,6 @@ const Service = () => {
       });
     }
 
-    // Scroll to the selected service section
     if (serviceRefs.current[index]) {
       serviceRefs.current[index].scrollIntoView({ behavior: "smooth" });
     }
@@ -224,7 +256,12 @@ const Service = () => {
       </div>
       <div className="service-2">
         {dataArr.map((data, index) => (
-          <div className="service-2-data" key={index}   ref={(el) => (serviceRefs.current[index] = el)}>
+          <div
+            className="service-2-data"
+            key={index}
+            data-index={index}
+            ref={(el) => (serviceRefs.current[index] = el)}
+          >
             <p
               style={{
                 fontSize: "30px",

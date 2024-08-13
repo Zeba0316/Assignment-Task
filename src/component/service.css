@@ -58,6 +58,7 @@
 .service-2 {
   width: 45%;
   height: 90%;
+
   margin-left: 10%;
   overflow-y: scroll;
   scrollbar-width: none;
