@@ -77,10 +77,12 @@
 @media(max-width: 1000px){
   .service-1{
     width: 85%;
+    
   }
   .service-1-category
   {
     gap:1rem;
+    padding: 0;
   }
   .service-1-category>p{
     font-size: 18px;
